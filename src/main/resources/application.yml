@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: local   # default
+    group:
+      # ?? ??? profile ??
+      local:
+        - common  # local profile? ???? common profile? ?? import
+      prod:
+        - common  # prod profile? ???? common profile? ?? import
+
+---
+spring:
+  config:
+    activate:
+      on-profile: common
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
