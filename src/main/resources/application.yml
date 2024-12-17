@@ -2,17 +2,24 @@ spring:
   profiles:
     active: local   # default
     group:
-      # ?? ??? profile ??
+      # 함께 사용될 profile
       local:
-        - common  # local profile? ???? common profile? ?? import
+        - common  # local profile을 사용하면 common profile도 함께 import
       prod:
-        - common  # prod profile? ???? common profile? ?? import
+        - common  # prod profile을 사용하면 common profile도 함께 import
 
 ---
 spring:
   config:
     activate:
       on-profile: common
+
+# 실무에서는 외부 API key를 common에 두지 않고, 로컬과 배포 환경에 별도로 발급받는다.
+# 사용량 제한에 걸리지 않기 위함이다.
+kakao:
+  rest:
+    api:
+      key: ${KAKAO_REST_API_KEY}
 
 ---
 spring:
