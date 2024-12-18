@@ -1,0 +1,14 @@
+# Testcontainers 에서 사용할 설정값
+spring:
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:mariadb:10:///   # 충돌되지 않는 랜덤 포트로 설정됨
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+kakao:
+  rest:
+    api:
+      key: ${KAKAO_REST_API_KEY}
