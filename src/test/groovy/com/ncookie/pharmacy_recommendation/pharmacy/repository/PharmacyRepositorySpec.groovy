@@ -3,15 +3,10 @@ package com.ncookie.pharmacy_recommendation.pharmacy.repository
 import com.ncookie.pharmacy_recommendation.AbstractIntegrationContainerBaseTest
 import com.ncookie.pharmacy_recommendation.pharmacy.entity.Pharmacy
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.testcontainers.spock.Testcontainers
-import spock.lang.Specification
 
-// 상속받은 AbstractIntegrationContainerBaseTest에서 Specification을 상속 받고
+// AbstractIntegrationContainerBaseTest에서 Specification을 상속 받고
 // @SpringBootTest 어노테이션을 적용했기 때문에 별도로 명시하지 않아도 된다.
-@Testcontainers
-@SpringBootTest
-class PharmacyRepositorySpec extends Specification {
+class PharmacyRepositorySpec extends AbstractIntegrationContainerBaseTest {
 
     @Autowired
     private PharmacyRepository pharmacyRepository
