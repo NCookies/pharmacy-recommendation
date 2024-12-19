@@ -24,7 +24,7 @@ public class KakaoAddressSearchService {
     @Value("${kakao.rest.api.key}")
     private String kakaoRestApiKey;
 
-    public KakaoApiResponseDto kakaoAddressSearch(String address) {
+    public KakaoApiResponseDto requestAddressSearch(String address) {
         if (ObjectUtils.isEmpty(address)) {
             return null;
         }
