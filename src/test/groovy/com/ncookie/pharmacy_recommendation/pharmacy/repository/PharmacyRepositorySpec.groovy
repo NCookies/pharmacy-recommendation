@@ -4,6 +4,8 @@ import com.ncookie.pharmacy_recommendation.AbstractIntegrationContainerBaseTest
 import com.ncookie.pharmacy_recommendation.pharmacy.entity.Pharmacy
 import org.springframework.beans.factory.annotation.Autowired
 
+import java.time.LocalDateTime
+
 // AbstractIntegrationContainerBaseTest에서 Specification을 상속 받고
 // @SpringBootTest 어노테이션을 적용했기 때문에 별도로 명시하지 않아도 된다.
 class PharmacyRepositorySpec extends AbstractIntegrationContainerBaseTest {
@@ -60,6 +62,27 @@ class PharmacyRepositorySpec extends AbstractIntegrationContainerBaseTest {
 
         then:
         result.size() == 1
+    }
+
+    def "BaseTimeEntity 등록"() {
+        given:
+        LocalDateTime now = LocalDateTime.now()
+        String address = "서울 특별시 성북구 종암동"
+        String name = "은혜 약국"
+
+        def pharmacy = Pharmacy.builder()
+                .pharmacyAddress(address)
+                .pharmacyName(name)
+                .build()
+
+        when:
+        pharmacyRepository.save(pharmacy)
+        def result = pharmacyRepository.findAll()
+
+        then:
+        result.get(0).getCreatedDate().isAfter(now)
+        result.get(0).getModifiedDate().isAfter(now)
+
     }
 
 }

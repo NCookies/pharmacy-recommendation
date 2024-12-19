@@ -2,12 +2,14 @@ package com.ncookie.pharmacy_recommendation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
+@EnableJpaAuditing
 @SpringBootApplication
-public class PhamarchRecommendationApplication {
+public class PharmacyRecommendationApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PhamarchRecommendationApplication.class, args);
+        SpringApplication.run(PharmacyRecommendationApplication.class, args);
     }
 
 }
