@@ -9,24 +9,53 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class DirectionService {
+    
+    // 약국 최대 검색 개수
+    private static final int MAX_SEARCH_COUNT = 3;
+
+    // 반경 10km 이내에서만 약국 검색
+    private static final double RADIUS_KM = 10.0;
 
     private final PharmacySearchService pharmacySearchService;
 
+    /**
+     * @param documentDto : 카카오맵 API 응답 결과. 현재 사용자의 위치 정보가 담겨있음
+     * @return : 현재 위치 기준 {@value #RADIUS_KM}km 반경 이내의 약국 {@value #MAX_SEARCH_COUNT}개를 거리순으로 반환
+     */
     public List<Direction> buildDirectionList(DocumentDto documentDto) {
 
-        // 약국 데이터 조회
-        List<PharmacyDto> pharmacyDtos = pharmacySearchService.searchPharmacyDtoList();
+        if (Objects.isNull(documentDto)) {
+            return Collections.emptyList();
+        }
 
-        // 거리계산 알고리즘을 이용하여, 고객과 약국 사이의 거리를 계산하고 sort
-
-        // 다음 강의에서 진행
-        return Collections.emptyList();
+        return pharmacySearchService.searchPharmacyDtoList()
+                .stream().map(pharmacyDto ->
+                        Direction.builder()
+                                .inputAddress(documentDto.getAddressName())
+                                .inputLatitude(documentDto.getLatitude())
+                                .inputLongitude(documentDto.getLongitude())
+                                .targetPharmacyName(pharmacyDto.getPharmacyName())
+                                .targetAddress(pharmacyDto.getPharmacyAddress())
+                                .targetLatitude(pharmacyDto.getLatitude())
+                                .targetLongitude(pharmacyDto.getLongitude())
+                                .distance(
+                                        calculateDistance(documentDto.getLatitude(), documentDto.getLongitude(),
+                                                pharmacyDto.getLatitude(), pharmacyDto.getLongitude())
+                                )
+                                .build())
+                .filter(direction -> direction.getDistance() <= RADIUS_KM)
+                .sorted(Comparator.comparing(Direction::getDistance))
+                .limit(MAX_SEARCH_COUNT)
+                .collect(Collectors.toList());
     }
 
     // Haversine formula 사용
