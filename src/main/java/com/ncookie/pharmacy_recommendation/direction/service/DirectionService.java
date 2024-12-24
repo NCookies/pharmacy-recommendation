@@ -2,11 +2,12 @@ package com.ncookie.pharmacy_recommendation.direction.service;
 
 import com.ncookie.pharmacy_recommendation.api.dto.DocumentDto;
 import com.ncookie.pharmacy_recommendation.direction.entity.Direction;
-import com.ncookie.pharmacy_recommendation.pharmacy.dto.PharmacyDto;
+import com.ncookie.pharmacy_recommendation.direction.repository.DirectionRepository;
 import com.ncookie.pharmacy_recommendation.pharmacy.service.PharmacySearchService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,6 +27,15 @@ public class DirectionService {
     private static final double RADIUS_KM = 10.0;
 
     private final PharmacySearchService pharmacySearchService;
+    private final DirectionRepository directionRepository;
+
+    public List<Direction> saveAll(List<Direction> directionList) {
+        if (CollectionUtils.isEmpty(directionList)) {
+            return Collections.emptyList();
+        }
+
+        return directionRepository.saveAll(directionList);
+    }
 
     /**
      * @param documentDto : 카카오맵 API 응답 결과. 현재 사용자의 위치 정보가 담겨있음
