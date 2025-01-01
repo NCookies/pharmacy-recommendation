@@ -1,6 +1,8 @@
 package com.ncookie.pharmacy_recommendation.direction.service
 
 import com.ncookie.pharmacy_recommendation.api.dto.DocumentDto
+import com.ncookie.pharmacy_recommendation.api.service.KakaoCategorySearchService
+import com.ncookie.pharmacy_recommendation.direction.repository.DirectionRepository
 import com.ncookie.pharmacy_recommendation.pharmacy.dto.PharmacyDto
 import com.ncookie.pharmacy_recommendation.pharmacy.service.PharmacySearchService
 import spock.lang.Specification
@@ -8,8 +10,12 @@ import spock.lang.Specification
 class DirectionServiceSpec extends Specification {
 
     private PharmacySearchService pharmacySearchService = Mock()
+    private KakaoCategorySearchService kakaoCategorySearchService = Mock()
+    private Base62Service base62Service = Mock()
+    private DirectionRepository directionRepository = Mock()
 
-    private DirectionService directionService = new DirectionService(pharmacySearchService)
+    private DirectionService directionService = new DirectionService(
+            pharmacySearchService, kakaoCategorySearchService, base62Service, directionRepository)
 
     private List<PharmacyDto> pharmacyList
 
