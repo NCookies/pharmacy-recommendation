@@ -1,5 +1,6 @@
 package com.ncookie.pharmacy_recommendation.pharmacy.service;
 
+import com.ncookie.pharmacy_recommendation.pharmacy.cache.PharmacyRedisTemplateService;
 import com.ncookie.pharmacy_recommendation.pharmacy.dto.PharmacyDto;
 import com.ncookie.pharmacy_recommendation.pharmacy.entity.Pharmacy;
 import lombok.RequiredArgsConstructor;
@@ -15,8 +16,19 @@ import java.util.stream.Collectors;
 public class PharmacySearchService {
 
     private final PharmacyRepositoryService pharmacyRepositoryService;
+    private final PharmacyRedisTemplateService pharmacyRedisTemplateService;
 
     public List<PharmacyDto> searchPharmacyDtoList() {
+
+        // Redis
+        // 기본적으로 약국 데이터를 redis에서 읽어오되, 그 과정에서 문제가 발생하면 DB에서 읽어들인다.
+        List<PharmacyDto> pharmacyDtoList = pharmacyRedisTemplateService.findAll();
+        if (!pharmacyDtoList.isEmpty()) {
+            log.info("redis findAll success!");
+            return pharmacyDtoList;
+        }
+
+        // DB
         return pharmacyRepositoryService.findAll()
                 .stream()
                 .map(this::convertToPharmacyDto)
