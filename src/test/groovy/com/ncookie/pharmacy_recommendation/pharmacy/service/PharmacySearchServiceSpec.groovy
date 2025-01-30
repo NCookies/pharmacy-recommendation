@@ -5,7 +5,7 @@ import com.ncookie.pharmacy_recommendation.pharmacy.cache.PharmacyRedisTemplateS
 import com.ncookie.pharmacy_recommendation.pharmacy.entity.Pharmacy
 import spock.lang.Specification
 
-class PharmacySearchServiceTest extends Specification {
+class PharmacySearchServiceSpec extends Specification {
 
     private PharmacySearchService pharmacySearchService
 

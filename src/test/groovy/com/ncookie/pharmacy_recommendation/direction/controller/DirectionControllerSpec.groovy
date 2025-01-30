@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class DirectionControllerTest extends Specification {
+class DirectionControllerSpec extends Specification {
 
     private MockMvc mockMvc
     private DirectionService directionService = Mock()
